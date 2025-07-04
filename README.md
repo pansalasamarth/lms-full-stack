@@ -109,7 +109,7 @@ lms-full-stack/
    ```bash
    git clone https://github.com/pansalasamarth/lms-full-stack.git
    cd lms-full-stack
-````
+   ````
 
 2. **Copy & configure environment variables**
 
