@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+/* eslint-disable no-empty-pattern */
+import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import YouTube from 'react-youtube';
 import { assets } from '../../assets/assets';
@@ -118,6 +119,21 @@ const Player = ({ }) => {
     }
   }
 
+  const getYouTubeVideoId = (url) => {
+    try {
+      const parsedUrl = new URL(url);
+      if (parsedUrl.hostname === 'youtu.be') {
+        return parsedUrl.pathname.slice(1); // remove leading slash
+      }
+      if (parsedUrl.searchParams.get("v")) {
+        return parsedUrl.searchParams.get("v");
+      }
+      return ''; // fallback
+    } catch (err) {
+      return err; // invalid URL
+    }
+  };
+
   useEffect(() => {
 
     getCourseProgress()
@@ -152,7 +168,7 @@ const Player = ({ }) => {
                       <div className="flex items-center justify-between w-full text-gray-800 text-xs md:text-default">
                         <p>{lecture.lectureTitle}</p>
                         <div className='flex gap-2'>
-                          {lecture.lectureUrl && <p onClick={() => setPlayerData({ ...lecture, chapter: index + 1, lecture: i + 1 })} className='text-blue-500 cursor-pointer'>Watch</p>}
+                          {lecture.lectureUrl && <p onClick={() => setPlayerData({ ...lecture, chapter: index + 1, lecture: i + 1 })} className='text-cyan-500 cursor-pointer'>Watch</p>}
                           <p>{humanizeDuration(lecture.lectureDuration * 60 * 1000, { units: ['h', 'm'] })}</p>
                         </div>
                       </div>
@@ -176,10 +192,10 @@ const Player = ({ }) => {
           playerData
             ? (
               <div>
-                <YouTube iframeClassName='w-full aspect-video' videoId={playerData.lectureUrl.split('/').pop()} />
+                <YouTube iframeClassName='w-full aspect-video' videoId={getYouTubeVideoId(playerData.lectureUrl)} />
                 <div className='flex justify-between items-center mt-1'>
                   <p className='text-xl '>{playerData.chapter}.{playerData.lecture} {playerData.lectureTitle}</p>
-                  <button onClick={() => markLectureAsCompleted(playerData.lectureId)} className='text-blue-600'>{progressData && progressData.lectureCompleted.includes(playerData.lectureId) ? 'Completed' : 'Mark Complete'}</button>
+                  <button onClick={() => markLectureAsCompleted(playerData.lectureId)} className='text-cyan-600'>{progressData && progressData.lectureCompleted.includes(playerData.lectureId) ? 'Completed' : 'Mark Complete'}</button>
                 </div>
               </div>
             )

@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+/* eslint-disable no-undef */
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { assets } from '../../assets/assets';
 import { AppContext } from '../../context/AppContext';
@@ -23,7 +24,7 @@ const SideBar = () => {
           end={item.path === '/educator'} // Add end prop for the Dashboard link
           className={({ isActive }) =>
             `flex items-center md:flex-row flex-col md:justify-start justify-center py-3.5 md:px-10 gap-3 ${isActive
-              ? 'bg-indigo-50 border-r-[6px] border-indigo-500/90'
+              ? 'bg-cyan-50 border-r-[6px] border-cyan-500/90'
               : 'hover:bg-gray-100/90 border-r-[6px] border-white hover:border-gray-100/90'
             }`
           }

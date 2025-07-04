@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Footer from '../../components/student/Footer';
 import { assets } from '../../assets/assets';
 import { useParams } from 'react-router-dom';
@@ -51,6 +51,22 @@ const CourseDetails = () => {
     }));
   };
 
+  const getYouTubeVideoId = (url) => {
+    try {
+      const parsedUrl = new URL(url);
+      if (parsedUrl.hostname === 'youtu.be') {
+        return parsedUrl.pathname.slice(1); // remove leading slash
+      }
+      if (parsedUrl.searchParams.get("v")) {
+        return parsedUrl.searchParams.get("v");
+      }
+      return ''; // fallback
+    } catch (err) {
+      return err; // invalid URL
+    }
+  };
+
+
 
   const enrollCourse = async () => {
 
@@ -98,7 +114,7 @@ const CourseDetails = () => {
   return courseData ? (
     <>
       <div className="flex md:flex-row flex-col-reverse gap-10 relative items-start justify-between md:px-36 px-8 md:pt-20 pt-10 text-left">
-        <div className="absolute top-0 left-0 w-full h-section-height -z-1 bg-gradient-to-b from-cyan-100/70"></div>
+        <div className="absolute top-0 left-0 w-full h-section-height -z-1 bg-gradient-to-b from-green-100/70"></div>
 
         <div className="max-w-xl z-10 text-gray-500">
           <h1 className="md:text-course-deatails-heading-large text-course-deatails-heading-small font-semibold text-gray-800">
@@ -114,12 +130,12 @@ const CourseDetails = () => {
                 className='w-3.5 h-3.5' />
               ))}
             </div>
-            <p className='text-blue-600'>({courseData.courseRatings.length} {courseData.courseRatings.length > 1 ? 'ratings' : 'rating'})</p>
+            <p className='text-cyan-600'>({courseData.courseRatings.length} {courseData.courseRatings.length > 1 ? 'ratings' : 'rating'})</p>
 
             <p>{courseData.enrolledStudents.length} {courseData.enrolledStudents.length > 1 ? 'students' : 'student'}</p>
           </div>
 
-          <p className='text-sm'>Course by <span className='text-blue-600 underline'>{courseData.educator.name}</span></p>
+          <p className='text-sm'>Course by <span className='text-cyan-600 underline'>{courseData.educator.name}</span></p>
 
           <div className="pt-8 text-gray-800">
             <h2 className="text-xl font-semibold">Course Structure</h2>
@@ -146,8 +162,8 @@ const CourseDetails = () => {
                             <p>{lecture.lectureTitle}</p>
                             <div className='flex gap-2'>
                               {lecture.isPreviewFree && <p onClick={() => setPlayerData({
-                                videoId: lecture.lectureUrl.split('/').pop()
-                              })} className='text-blue-500 cursor-pointer'>Preview</p>}
+                                videoId: getYouTubeVideoId(lecture.lectureUrl)
+                              })} className='text-cyan-500 cursor-pointer'>Preview</p>}
                               <p>{humanizeDuration(lecture.lectureDuration * 60 * 1000, { units: ['h', 'm'] })}</p>
                             </div>
                           </div>
@@ -201,11 +217,11 @@ const CourseDetails = () => {
                 <p>{calculateNoOfLectures(courseData)} lessons</p>
               </div>
             </div>
-            <button onClick={enrollCourse} className="md:mt-6 mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium">
+            <button onClick={enrollCourse} className="md:mt-6 mt-4 w-full py-3 rounded bg-cyan-600 text-white font-medium">
               {isAlreadyEnrolled ? "Already Enrolled" : "Enroll Now"}
             </button>
             <div className="pt-6">
-              <p className="md:text-xl text-lg font-medium text-gray-800">What's in the course?</p>
+              <p className="md:text-xl text-lg font-medium text-gray-800">What&apos;s in the course?</p>
               <ul className="ml-4 pt-2 text-sm md:text-default list-disc text-gray-500">
                 <li>Lifetime access with free updates.</li>
                 <li>Step-by-step, hands-on project guidance.</li>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { assets } from '../../assets/assets';
 import { Link, useLocation } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
@@ -9,6 +9,9 @@ import axios from 'axios';
 const Navbar = () => {
 
   const location = useLocation();
+
+  const isAboutPage = location.pathname.includes('/about');
+  const isContactPage = location.pathname.includes('/contact');
 
   const isCoursesListPage = location.pathname.includes('/course-list');
 
@@ -41,8 +44,13 @@ const Navbar = () => {
   }
 
   return (
-    <div className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${isCoursesListPage ? 'bg-white' : 'bg-cyan-100/70'}`}>
-      <img onClick={() => navigate('/')} src={assets.logo} alt="Logo" className="w-28 lg:w-32 cursor-pointer" />
+    <div className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${isCoursesListPage ? 'bg-white' : 'bg-green-100/70'}`}>
+      <img onClick={() => navigate('/')} src={assets.logoNew} alt="Logo" className="w-28 lg:w-40 cursor-pointer" />
+      <div className='flex items-center justify-center gap-8 text-lg'>
+        <a href='/' className={!isAboutPage && !isContactPage ? 'text-cyan-600' : ''}>Home</a>
+        <a href='/about' className={isAboutPage ? 'text-cyan-600' : ''}>About</a>
+        <a href='/contact' className={isContactPage ? 'text-cyan-600' : ''}>Contact us</a>
+      </div>
       <div className="md:flex hidden items-center gap-5 text-gray-500">
         <div className="flex items-center gap-5">
           {
@@ -54,7 +62,7 @@ const Navbar = () => {
         </div>
         {user
           ? <UserButton />
-          : <button onClick={() => openSignIn()} className="bg-blue-600 text-white px-5 py-2 rounded-full">
+          : <button onClick={() => openSignIn()} className="bg-cyan-600 text-white px-5 py-2 rounded-full">
             Create Account
           </button>}
       </div>

@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+/* eslint-disable react/prop-types */
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { assets } from '../../assets/assets'
 import { AppContext } from '../../context/AppContext'
